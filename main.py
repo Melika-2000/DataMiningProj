@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import pandas
+import pandas as pd
+from prettytable import PrettyTable
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+dataSet = pd.read_csv('Data set/INOUT.csv')
+title = ["name", "type","min", "max", "mean", "median"]
+
+table = PrettyTable()
+maxList = []
+minList = []
+typeList = []
+meanList = []
+nameList = []
+medianList = []
+modeList = []
+
+for attribute in dataSet.columns:
+    if dataSet[attribute].dtype == 'object':
+        continue
+    nameList.append(attribute)
+    typeList.append(dataSet[attribute].dtype)
+    minList.append(dataSet[attribute].min())
+    maxList.append(dataSet[attribute].max())
+    meanList.append(dataSet[attribute].mean())
+    medianList.append(dataSet[attribute].median())
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+table.add_column(title[0], nameList)
+table.add_column(title[1], typeList)
+table.add_column(title[2], minList)
+table.add_column(title[3], maxList)
+table.add_column(title[4], meanList)
+table.add_column(title[5], medianList)
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(table)
