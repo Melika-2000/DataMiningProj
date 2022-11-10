@@ -13,7 +13,6 @@ dataSet5 = pd.read_csv('DataSets/PRODUCTS.csv')
 dataSet6 = pd.read_csv('DataSets/PRODUCTINSTANCE.csv', encoding='cp1252')
 
 
-
 dataSets = [dataSet1, dataSet2, dataSet3, dataSet4, dataSet5, dataSet6]
 title = ["name", "type", "min", "max", "mean", "median", "Q1(25%)", "Q3(75%)", "IQR", "Q1-(1.5*IQR)", "Q3+(1.5*IQR)"]
 
@@ -32,15 +31,18 @@ iqr = []
 q1MinusIQR = []
 q3PlusIQR = []
 
+# calculates statistical values, for each attribute in each dataSet
 for dataSet in dataSets:
     for attribute in dataSet.columns:
-
+        # jumb over objective attributes
         if dataSet[attribute].dtype == 'object':
             continue
-
+        
+        # draws box_plots
         sns.boxplot(y=dataSet[attribute])
         plt.show()
 
+        # generates and stores values for each attribute
         nameList.append(attribute)
         typeList.append(dataSet[attribute].dtype)
         minList.append(dataSet[attribute].min())
@@ -51,6 +53,7 @@ for dataSet in dataSets:
         q3.append(dataSet[attribute].describe()[6])
         iqr.append(dataSet[attribute].describe()[6] - dataSet[attribute].describe()[4])
 
+    # calculates bounds for outliers
     for d in range(len(iqr)):
         min = q1[d] - (1.5*iqr[d])
         if min < minList[d] :
@@ -64,6 +67,7 @@ for dataSet in dataSets:
             
         q3PlusIQR.append(max)
 
+    # prints the table
     table.add_column(title[0], nameList)
     table.add_column(title[1], typeList)
     table.add_column(title[2], minList)
@@ -77,7 +81,8 @@ for dataSet in dataSets:
     table.add_column(title[10],q3PlusIQR)
 
     print(table)
-
+    
+    # clears lists 
     maxList.clear()
     minList.clear()
     typeList.clear()
