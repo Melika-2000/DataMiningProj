@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
+
 dataSet1 = pd.read_csv('DataSets/INOUT.csv')
 dataSet2 = pd.read_csv('DataSets/INOUTLINE.csv')
 dataSet3 = pd.read_csv('DataSets/TRANSFER_ITEM_D.csv')
@@ -12,8 +13,10 @@ dataSet5 = pd.read_csv('DataSets/PRODUCTS.csv')
 dataSet6 = pd.read_csv('DataSets/PRODUCTINSTANCE.csv', encoding='cp1252')
 
 
+
 dataSets = [dataSet1, dataSet2, dataSet3, dataSet4, dataSet5, dataSet6]
-title = ["name", "type", "min", "max", "mean", "median", "IQR1(25%)", "IQR3(75%)"]
+title = ["name", "type", "min", "max", "mean", "median", "Q1(25%)", "Q3(75%)", "IQR", "Q1-(1.5*IQR)", "Q3+(1.5*IQR)"]
+
 
 
 table = PrettyTable()
@@ -24,8 +27,11 @@ meanList = []
 nameList = []
 medianList = []
 modeList = []
-iqr1 = []
-iqr3 = []
+q1 = []
+q3 = []
+iqr = []
+q1MinusIQR = []
+q3PlusIQR = []
 
 for dataSet in dataSets:
     for attribute in dataSet.columns:
@@ -42,8 +48,19 @@ for dataSet in dataSets:
         maxList.append(dataSet[attribute].max())
         meanList.append(dataSet[attribute].mean())
         medianList.append(dataSet[attribute].median())
-        iqr1.append(dataSet[attribute].describe()[4])
-        iqr3.append(dataSet[attribute].describe()[6])
+        q1.append(dataSet[attribute].describe()[4])
+        q3.append(dataSet[attribute].describe()[6])
+        iqr.append(dataSet[attribute].describe()[6] - dataSet[attribute].describe()[4])
+
+    for d in range(len(iqr)):
+        min = q1[d] - (1.5*iqr[d])
+        if min < 0 :
+            min = 0
+
+        q1MinusIQR.append(min)
+
+        max = q3[d] + (1.5*iqr[d])
+        q3PlusIQR.append(max)
 
     table.add_column(title[0], nameList)
     table.add_column(title[1], typeList)
@@ -51,8 +68,11 @@ for dataSet in dataSets:
     table.add_column(title[3], maxList)
     table.add_column(title[4], meanList)
     table.add_column(title[5], medianList)
-    table.add_column(title[6],iqr1)
-    table.add_column(title[7],iqr3)
+    table.add_column(title[6],q1)
+    table.add_column(title[7],q3)
+    table.add_column(title[8],iqr)
+    table.add_column(title[9],q1MinusIQR)
+    table.add_column(title[10],q3PlusIQR)
 
     print(table)
 
@@ -63,7 +83,10 @@ for dataSet in dataSets:
     nameList.clear()
     medianList.clear()
     modeList.clear()
-    iqr1.clear()
-    iqr3.clear()
+    q1.clear()
+    q3.clear()
+    iqr.clear()
+    q1MinusIQR.clear()
+    q3PlusIQR.clear()
     table.clear()
 
