@@ -18,7 +18,6 @@ dataSets = [dataSet1, dataSet2, dataSet3, dataSet4, dataSet5, dataSet6]
 title = ["name", "type", "min", "max", "mean", "median", "Q1(25%)", "Q3(75%)", "IQR", "Q1-(1.5*IQR)", "Q3+(1.5*IQR)"]
 
 
-
 table = PrettyTable()
 maxList = []
 minList = []
@@ -54,12 +53,15 @@ for dataSet in dataSets:
 
     for d in range(len(iqr)):
         min = q1[d] - (1.5*iqr[d])
-        if min < 0 :
-            min = 0
+        if min < minList[d] :
+            min = minList[d]
 
         q1MinusIQR.append(min)
 
         max = q3[d] + (1.5*iqr[d])
+        if max > maxList[d]:
+            max = maxList[d]
+            
         q3PlusIQR.append(max)
 
     table.add_column(title[0], nameList)
