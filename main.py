@@ -23,6 +23,19 @@ def dateValidityCheck(data):
     return round((validCount/dataSize)*100, 3)
 
 
+def currentnessCalculator(data):
+    upToDateData = 0
+    for i in range(dataSize):
+        for fmt in ("%m/%d/%Y %H:%M","%m/%d/%Y %H:%M:%S %p"):
+            try:
+                date = datetime.strptime(data[i], fmt)
+                if currentYear - date.year <= 3:
+                    upToDateData += 1
+            except Exception:
+                continue
+    return round((upToDateData/dataSize)*100, 3)
+
+
 def stringToInt(data):
     df = pd.to_numeric(data, errors='coerce')  # string ha tabdil be null mishan
     return floatToInt(df)
@@ -43,7 +56,7 @@ floatToIntData1 = ["DOCUMENTNO","REF_ORG","C_COSTCENTER_ID","COM_BPARTNER_ID","M
                   "RESPONSIBLEMANAGER","FROMUSERMANAGERID","COM_BPARTNER_ID_F","M_INOUT_AMVAL_ID","DOCUMENTNO1",\
                   "LOCATIONS_ID","ACCT_AC_HOLDING_ID","LETTERNO","VAHED_MALI","ACCT_AC_JOURNAL_ID","BASEINFO_RECORDID","C_YEAR_ID"]
 floatToIntData2 = ["VAHED_MALI","PRODUCT_BATCH_ID","BASEINFO_RECORDID","C_YEAR_ID","M_INOUT_AMVAL_ID",]
-floatToIntData3 = ["M_PRODUCT_ID","UPDATED","UPDATEDBY","","DATE1","PARENT_ID","ISSUMMARY","BOOKVALUE"]
+floatToIntData3 = ["M_PRODUCT_ID","UPDATEDBY","DATE1","PARENT_ID","ISSUMMARY","BOOKVALUE"]
 floatToIntData4 = []
 floatToIntData5 = []
 floatToIntData6 = []
@@ -76,6 +89,7 @@ validity = []
 attributeName = []
 sizeList = []
 table = PrettyTable()
+currentYear = 2022
 
 for dataSet in dataSets:
     dateData = dateDataList.pop(0)
@@ -111,6 +125,7 @@ for dataSet in dataSets:
     table.add_column(tableTitle[4], validity)
 
     print(table)
+    print(" Data Currentness: " + str(currentnessCalculator(dataSet["UPDATED"])) + "\n")
 
     table.clear()
     nullCount.clear()
