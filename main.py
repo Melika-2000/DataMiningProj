@@ -36,6 +36,19 @@ def currentnessCalculator(data):
     return round((upToDateData/dataSize)*100, 3)
 
 
+def consistencyCalculator(createdTimeData, updatedTimeData):
+    consistentData = 0
+    for i in range(dataSize):
+        for fmt in ("%m/%d/%Y %H:%M","%m/%d/%Y %H:%M:%S %p"):
+            try:
+                createdTime = datetime.strptime(createdTimeData[i], fmt)
+                updatedTime = datetime.strptime(updatedTimeData[i], fmt)
+                if (updatedTime - createdTime).days >= 0:
+                    consistentData += 1
+            except Exception:
+                continue
+    return round((consistentData/dataSize)*100, 3)
+
 def stringToInt(data):
     df = pd.to_numeric(data, errors='coerce')  # string ha tabdil be null mishan
     return floatToInt(df)
@@ -125,7 +138,8 @@ for dataSet in dataSets:
     table.add_column(tableTitle[4], validity)
 
     print(table)
-    print(" Data Currentness: " + str(currentnessCalculator(dataSet["UPDATED"])) + "\n")
+    print(" Data Currentness: " + str(currentnessCalculator(dataSet["UPDATED"])))
+    print(" Data Consistency: " + str(consistencyCalculator(dataSet["CREATED"], dataSet["UPDATED"])) + "\n")
 
     table.clear()
     nullCount.clear()
