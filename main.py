@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-
+# part 1
 dataSet = pd.read_csv('Data set/PRODUCTS.csv')
 
 maxYear = 2022
@@ -23,3 +23,17 @@ goodsPerYearCounter(dataSet["CREATED"])
 print("count of registered goods")
 for i in range(len(yearList)):
     print("year " + str(i + minYear) + " : " + str(yearList[i]))
+
+# part 3
+dataSet3 = pd.read_csv('Data set/INOUT.csv')
+
+data3 = dataSet3[["C_DOCSTATUS_ID","INOUT_ID"]].copy()
+
+pishNevis = data3[data3.C_DOCSTATUS_ID == 3000006]
+print(pishNevis)
+
+nahaii = data3[data3.C_DOCSTATUS_ID == 3000025]
+print(nahaii)
+
+others = data3[(data3.C_DOCSTATUS_ID != 3000006) & (data3.C_DOCSTATUS_ID != 3000025)]
+print(others)
