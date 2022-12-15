@@ -2,12 +2,13 @@ import pandas as pd
 from datetime import datetime
 
 dataSet = pd.read_csv('Data set/PRODUCTS.csv')
-dataSet.size
+
 maxYear = 2022
 minYear = 2013
 
 def goodsPerYearCounter(data):
-    for i in range(dataSet.size):
+
+    for i in range(data.size):
         for fmt in ("%m/%d/%Y %H:%M", "%m/%d/%Y %H:%M:%S %p"):
             try:
                 date = datetime.strptime(data[i], fmt)
