@@ -86,6 +86,8 @@ for i, holdingId in enumerate(cleanedDataSet["ACCT_AC_HOLDING_ID"]):
     if holdingId not in holdingInfo.keys():
         itemInfo[ItemKey] = (defaultItemCount, bookValue)
         holdingInfo[holdingId] = []
+        holdingInfo[holdingId].append(ItemKey)
+
     else:
         # holding is already in dictionery
         # first time an item visited in intended holding:
