@@ -1,4 +1,8 @@
 import pandas as pd
+from datetime import datetime
+
+
+#part 1
 
 productInsDataSet = pd.read_csv('Data set/PRODUCTINSTANCE.csv', encoding='cp1252')
 cleanDataSet = productInsDataSet[["AD_ORG_REF_ID", "RETURNAMVALTOANBAR"]].dropna()
@@ -26,3 +30,22 @@ for orgId in orgInfo.keys():
     print("returned-purchased Ratio:" + str("%.2f"%(returnedItemsCount/purchasedItemsCount)))
     print("*************************")
 
+
+
+#part 2
+inOutlineDataSet = pd.read_csv('Data set/INOUTLINE.csv')
+cleanDataSet = inOutlineDataSet[["INOUTLINE_ID", "CREATED", "OPERATIONDATE", "M_WAREHOUSE_ID"]].dropna()
+
+def goodsPerYearCounter(data):
+    for i in range(data.size):
+        for fmt in ("%m/%d/%Y %H:%M", "%m/%d/%Y %H:%M:%S %p"):
+            try:
+                year = datetime.strptime(data[i], fmt).year
+            except Exception:
+                continue
+
+years = {}
+print(cleanDataSet)
+for item in cleanDataSet.values:
+    print(item)
+# print(cleanDataSet["OPERATIONDATE"])
