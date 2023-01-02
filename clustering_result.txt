@@ -1,0 +1,41 @@
+************************************
+eps=0.01,min_samples=10
+Estimated number of clusters: 38
+Estimated number of noise points: 594
+evaluating...
+Silhouette Coefficient: 0.813
+
+************************************
+eps=0.012,min_samples=10
+Estimated number of clusters: 37
+Estimated number of noise points: 488
+evaluating...
+Silhouette Coefficient: 0.801
+
+************************************
+eps=0.008,min_samples=10
+Estimated number of clusters: 49
+Estimated number of noise points: 727
+evaluating...
+Silhouette Coefficient: 0.818
+
+************************************
+eps=0.008,min_samples=13
+Estimated number of clusters: 39
+Estimated number of noise points: 908
+evaluating...
+Silhouette Coefficient: 0.797
+
+************************************
+eps=0.008,min_samples=8
+Estimated number of clusters: 54
+Estimated number of noise points: 593
+evaluating...
+Silhouette Coefficient: 0.817
+
+************************************
+eps=0.0015,min_samples=10
+Estimated number of clusters: 41
+Estimated number of noise points: 46
+evaluating...
+Silhouette Coefficient: 0.961
