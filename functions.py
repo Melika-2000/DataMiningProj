@@ -32,11 +32,11 @@ def visualize(dbscan,labels,data,n_clusters_):
         # print(xy[:,0])
         plt.plot(
             xy[:, 0],
-            # xy[:, 1],
+            xy[:, 1],
             "o",
             markerfacecolor=tuple(col),
             markeredgecolor="k",
-            markersize=14,
+            markersize=12,
         )
 
         xy = data[class_member_mask & ~core_samples_mask]
@@ -49,7 +49,7 @@ def visualize(dbscan,labels,data,n_clusters_):
         # print(xy.shape)
         plt.plot(
             xy[:, 0],
-            # xy[:, 1],
+            xy[:, 1],
             "o",
             markerfacecolor=tuple(col),
             markeredgecolor="k",
@@ -61,3 +61,15 @@ def visualize(dbscan,labels,data,n_clusters_):
 
     return clusters
 
+
+# generate random integer values
+from random import seed
+from random import randint
+
+def random_int(min_b,max_b):
+# seed random number generator
+    # seed(1)
+    # generate some integers
+    value = randint(min_b, max_b)
+
+    return value

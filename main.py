@@ -146,7 +146,7 @@ merged = pd.merge(left=products,right=productInstance,how='inner',left_on='M_PRO
 
 cleanData = merged[['NAME',"VALUE",'BOOKVALUE']].dropna()
 
-X = cleanData[['VALUE']].copy()
+X = cleanData[['VALUE','BOOKVALUE']].copy()
 
 
 X_train, X_test = train_test_split(X,test_size=0.3,shuffle=True,random_state=40)
@@ -165,8 +165,8 @@ train = standard.fit_transform(X_train_np)
 # for i in range(100):
 #     print(train[i])
 
-print('eps=0.0015,min_samples=10')
-dbscan = DBSCAN(eps=0.00015,min_samples=10).fit(train)
+print('eps=0.005,min_samples=7')
+dbscan = DBSCAN(eps=0.005,min_samples=7).fit(train)
 labels = dbscan.labels_
 
 # Number of clusters in labels, ignoring noise if present.
@@ -236,20 +236,48 @@ for key in clusters.keys():
 
     price[key] = np.mean(prices_np)
 
-    # print(key,price[key])
+    print(key,price[key],len(real_clusters[key]))
 
 
-standard = StandardScaler().fit(X_test_np)
-test = standard.fit_transform(X_test_np)
+# standard = StandardScaler().fit(X_test_np)
+# test = standard.fit_transform(X_test_np)
 
-dbscan2 = dbscan.fit_predict(test)
-print(dbscan2)
+# dbscan2 = dbscan.fit_predict(test)
+# print(dbscan2)
 
 # labels2 = dbscan2.labels_
 
 # n_clusters_2 = len(set(labels)) - (1 if -1 in labels else 0)
 # clusters2 = visualize(dbscan2 , labels2 , test, n_clusters_2)
 
+maxBoundary = len(X_test_np)
+index = []
+for i in range(10):
+    index.append(random_int(0,maxBoundary))
+
+
+
+for i in index:
+    flag=0
+    itemValue = X_test_np[i][0]
+    itemRealPrice = X_test_np[i][1]
+    for key in real_clusters:
+        if key == -1:
+            continue
+           
+        min = boundary[key][0]
+        max = boundary[key][1]
+
+        if (itemValue >= min) and (itemValue <= max):
+            print(f'value=<{itemValue}> price=<{itemRealPrice:.2f}> estimated price= {price[key]:.2f}')
+            flag=1
+            break
+
+    if flag == 0:
+        print("my model detects this data as noise, so it cant predict its price")
+
+
+ 
 
 
 
