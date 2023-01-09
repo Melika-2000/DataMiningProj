@@ -7,6 +7,7 @@ from sklearn.preprocessing import *
 import numpy as np
 import matplotlib.pyplot as plt 
 from functions import *
+import math
 
 
 # to ignore "DtypeWarning", generated due to reading csv files
@@ -163,20 +164,37 @@ for key in clusters.keys():
         continue
 
     print(f"key: {key}")
-    max = np.max(real_c[0,:])
-    min = np.min(real_c[0,:])
-    value_boundary[key] = (min,max)
+    max = np.max(real_c[0])
+    min = np.min(real_c[0])
+    mean = np.mean(real_c[0])
+    std = math.sqrt(np.var(real_c[0]))
     print(f"value min: {min} -- value max: {max}")
+    print(f"mean: {mean} -- std: {std}")
 
     record = cleanData[(cleanData.VALUE >= min) & (cleanData.VALUE <= max)]
 
-    max = np.max(real_c[1,:])
-    min = np.min(real_c[1,:])
-    price_boundary[key] = (min,max)
+    upper_bound = mean+(2*std)
+    lower_bound = mean-(2*std)
+    print(f"value lower bound: {lower_bound} -- value upper bound: {upper_bound}")
+    value_boundary[key] = (min,max,mean,std,lower_bound,upper_bound)
 
-    print(f"book value min: {min} -- value max: {max}")
+
+    max = np.max(real_c[1])
+    min = np.min(real_c[1])
+    mean = np.mean(real_c[1])
+    std = math.sqrt(np.var(real_c[1]))
+    
+
+    print(f"price min: {min} -- price max: {max}")
+    print(f"mean: {mean} -- std: {std}")
 
     prices_range = record[(record.BOOKVALUE >= min) & (record.BOOKVALUE <= max)]
+
+    upper_bound = mean+(2*std)
+    lower_bound = mean-(2*std)
+    print(f"price lower bound: {lower_bound} -- price upper bound: {upper_bound}")
+    price_boundary[key] = (min,max,mean,std,lower_bound,upper_bound)
+
 
     prices = prices_range['BOOKVALUE']
 
@@ -202,23 +220,26 @@ for i in index:
     for key in real_clusters:
         if key == -1:
             continue
-           
-        min = value_boundary[key][0]
-        max = value_boundary[key][1]
+        
+        
+        min = np.maximum(value_boundary[key][0],value_boundary[key][4])
+        max = np.minimum(value_boundary[key][1],value_boundary[key][5])
 
         if (itemValue >= min) and (itemValue < max):
-            min = price_boundary[key][0]
-            max = price_boundary[key][1]
+            min = np.maximum(price_boundary[key][0],price_boundary[key][4])
+            max = np.minimum(price_boundary[key][1],price_boundary[key][5])
             if (itemRealPrice >= min) and (itemRealPrice < max):
                 print(f'value=<{itemValue}> price=<{itemRealPrice:.2f}> estimated price= {price[key]:.2f}')
                 flag=1
                 break
 
     if flag == 0:
-        print("this data is not belongs to any cluster, so model cant predict its price")
+        print("this data does not belongs to any cluster, so model cant predict its price")
 
 
  
+
+
 
 
 
