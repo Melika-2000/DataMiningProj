@@ -96,3 +96,9 @@ Estimated number of noise points: 308
 evaluating...
 Silhouette Coefficient: 0.756
 
+************************************2
+eps=0.00070,min_samples=10
+Estimated number of clusters: 19
+Estimated number of noise points: 249
+evaluating...
+Silhouette Coefficient: 0.756
