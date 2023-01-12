@@ -13,6 +13,8 @@ def visualize(dbscan,labels,data,n_clusters_):
     unique_labels = set(labels)
     core_samples_mask = np.zeros_like(labels, dtype=bool)
     core_samples_mask[dbscan.core_sample_indices_] = True
+    # core_samples_mask[dbscan.subcluster_centers_] = True
+    # core_samples_mask[dbscan.ordering_] = True
 
     colors = [plt.cm.Spectral(each) for each in np.linspace(0, 1, len(unique_labels))]
     # type: ignore

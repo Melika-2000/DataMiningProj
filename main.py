@@ -1,13 +1,14 @@
 import pandas as pd
 import re
 from sklearn import metrics
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import DBSCAN,OPTICS,Birch
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import *
 import numpy as np
 import matplotlib.pyplot as plt 
 from functions import *
 import math
+import hdbscan
 
 
 # to ignore "DtypeWarning", generated due to reading csv files
@@ -129,10 +130,14 @@ X_test_np = X_test.to_numpy()
 
 standard = MaxAbsScaler().fit(X_train_np)
 train = standard.transform(X_train_np)
+# test = standard.transform(X_test_np)
 
 
-print('eps=0.002,min_samples=7')
-dbscan = DBSCAN(eps=0.00070,min_samples=10).fit(train)
+print('eps=0.00070,min_samples=10')
+dbscan = DBSCAN(eps=0.000150,min_samples=3).fit(train)
+# dbscan = OPTICS(min_samples=10,max_eps=0.00070).fit(train)
+# dbscan = Birch(threshold=0.010,branching_factor=50).fit(train)
+
 labels = dbscan.labels_
 
 # Number of clusters in labels, ignoring noise if present.
@@ -229,7 +234,7 @@ for i in index:
             min = np.maximum(price_boundary[key][0],price_boundary[key][4])
             max = np.minimum(price_boundary[key][1],price_boundary[key][5])
             if (itemRealPrice >= min) and (itemRealPrice < max):
-                print(f'value=<{itemValue}> price=<{itemRealPrice:.2f}> estimated price= {price[key]:.2f}')
+                print(f'value=<{itemValue}> price=<{itemRealPrice:.4f}> estimated price= {price[key]:.2f}')
                 flag=1
                 break
 
