@@ -75,3 +75,16 @@ def random_int(min_b,max_b):
     value = randint(min_b, max_b)
 
     return value
+
+from yellowbrick.cluster import KElbowVisualizer
+
+# Generate synthetic dataset with 8 random clusters
+def elbow(model ,t_boundry,data,visual=False,metric='distortion'):
+# Instantiate the clustering model and visualizer
+    visualizer = KElbowVisualizer(model, k=t_boundry,metric=metric)
+    visualizer.fit(data)        # Fit the data to the visualizer
+
+    if visual:
+        visualizer.show()   
+
+    return visualizer.elbow_value_
