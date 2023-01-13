@@ -102,3 +102,17 @@ Estimated number of clusters: 19
 Estimated number of noise points: 249
 evaluating...
 Silhouette Coefficient: 0.756
+
+************************************2
+eps=0.000150,min_samples=3
+Estimated number of clusters: 46
+Estimated number of noise points: 199
+evaluating...
+Silhouette Coefficient: 0.689
+
+************************************2 - hd
+min_cluster_size=4,cluster_selection_epsilon=0.00020
+Estimated number of clusters: 90
+Estimated number of noise points: 193
+evaluating...
+Silhouette Coefficient: 0.66

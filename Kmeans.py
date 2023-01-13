@@ -99,6 +99,11 @@ model.n_clusters = 48
 # fit K-means method
 kmeans = model.fit(train)
 
+figure = plt.figure(figsize=(9,7))
+plt.title("Train Result")
+plt.scatter(train[:,0],train[:,1],c=kmeans.labels_, s=180)
+plt.show()
+
 # select 10 random record from test data
 maxBoundary = len(test)
 index = []
@@ -107,20 +112,23 @@ for i in range(10):
     ind = random_int(0,maxBoundary)
     test_ls.append(test[ind])
     index.append(ind)
-
-# predict test records. It is also possible to pass the whole test data, instead of 
-# 10 selected ones in last step
 test_ls = np.asarray(test_ls)
-predictions = kmeans.predict(test_ls)
 
+# predict test data.
+predictions = kmeans.predict(test)
+
+# print labels for selected records
 print(f"selected data indexes: {index}")
-print(f"labels: {predictions}")
+print(f"labels: {predictions[index]}")
 
-figure = plt.figure(figsize=(9,7))
-# plt.scatter(train[:,0],train[:,1],c=kmeans.labels_, s=200)
-plt.scatter(test[index, 0], test[index, 1], c=predictions,s=100)
-plt.title("Optimal Number of Clusters")
+
+plt.scatter(test[:, 0], test[:, 1], c=predictions,s=180)
+plt.title("Test Predictions")
 plt.show()
-plt.savefig('Kmeans-results.png')
+
 print(f"Silhouette Coefficient (train): {metrics.silhouette_score(train, kmeans.labels_):.3f}")
-print(f"Silhouette Coefficient (test): {metrics.silhouette_score(test_ls, predictions):.3f}")
+print(f"Silhouette Coefficient (test): {metrics.silhouette_score(test, predictions):.3f}")
+
+plt.scatter(test[index, 0], test[index, 1], c=predictions[index],s=250)
+plt.title("Selected Points")
+plt.show()
