@@ -59,18 +59,6 @@ class ItemsInfo:
             item_count = ItemsInfo.operatedItemPerYear[key]
             ItemsInfo.operatedItemPerYear[key] = item_count + 1
 
-    @staticmethod
-    def get_top_operated_item_per_year(year):
-        maxItemCount = 0
-        maxItemId = 0
-        for key in ItemsInfo.operatedItemPerYear.keys():
-            if str(year) in key:
-                item_count = ItemsInfo.operatedItemPerYear[key]
-                if item_count > maxItemCount:
-                    maxItemCount = item_count
-                    maxItemId = int(key.split("_")[1])  # extract id from key
-        return maxItemId, maxItemCount
-
     def update_top_consumer_per_year(self):  # baraye har kala
         max_count = 0
         for consumer_id in self.consumers.keys():
@@ -91,3 +79,14 @@ class ItemsInfo:
     def get_item_count(self):
         return self.item_count
 
+    @staticmethod
+    def get_top_operated_item_per_year(year):
+        maxItemCount = 0
+        maxItemId = 0
+        for key in ItemsInfo.operatedItemPerYear.keys():
+            if str(year) in key:
+                item_count = ItemsInfo.operatedItemPerYear[key]
+                if item_count > maxItemCount:
+                    maxItemCount = item_count
+                    maxItemId = int(key.split("_")[1])  # extract id from key
+        return maxItemId, maxItemCount

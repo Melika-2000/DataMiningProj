@@ -4,7 +4,6 @@ class ConsumerInfo:
     #for each consumer in a year
     def __init__(self, consumer_id, item_id, created_year, operation_year):
         self.consumer_id = consumer_id
-        self.created_year = created_year
         self.purchase_count = 1
         self.mostPurchasedItem = item_id
         self.mostPurchasedItemCount = 1
@@ -21,6 +20,15 @@ class ConsumerInfo:
     def __update_item_purchase(self, item_id):
         purchase_count = self.purchasedItems[item_id]
         self.purchasedItems[item_id] = purchase_count + 1
+
+    def update_consumer_info(self, item_id, create_year, operation_year):
+        if item_id not in self.purchasedItems.keys():
+            self.__add_new_item(item_id)
+        else:
+            self.__update_item_purchase(item_id)
+        self.add_purchase_count()
+        self.__update_input_per_year(create_year)
+        self.__update_output_per_year(operation_year)
 
     def add_purchase_count(self):
         self.purchase_count += 1
@@ -47,11 +55,4 @@ class ConsumerInfo:
                 self.mostPurchasedItem = item_id
         return self.mostPurchasedItem, self.mostPurchasedItemCount
 
-    def update_consumer_info(self, item_id, create_year, operation_year):
-        if item_id not in self.purchasedItems.keys():
-            self.__add_new_item(item_id)
-        else:
-            self.__update_item_purchase(item_id)
-        self.add_purchase_count()
-        self.__update_input_per_year(create_year)
-        self.__update_output_per_year(operation_year)
+
